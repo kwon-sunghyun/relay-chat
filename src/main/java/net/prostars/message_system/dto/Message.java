@@ -5,5 +5,5 @@ package net.prostars.message_system.dto;
  *
  * @param content 실제 채팅 메시지 내용
  */
-public record Message(String content) {
+public record Message(String username ,String content) {
 }
