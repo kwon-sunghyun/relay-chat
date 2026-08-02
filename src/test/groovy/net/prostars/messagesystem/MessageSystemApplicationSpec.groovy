@@ -1,6 +1,6 @@
-package net.prostars.message_system;
+package net.prostars.messagesystem
 
-import org.junit.jupiter.api.Test;
+
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification;
 

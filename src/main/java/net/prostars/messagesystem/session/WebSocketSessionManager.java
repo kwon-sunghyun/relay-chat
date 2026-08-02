@@ -1,4 +1,4 @@
-package net.prostars.message_system.session;
+package net.prostars.messagesystem.session;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

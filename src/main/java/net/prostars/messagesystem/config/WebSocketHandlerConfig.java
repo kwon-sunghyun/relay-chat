@@ -1,6 +1,6 @@
-package net.prostars.message_system.config;
+package net.prostars.messagesystem.config;
 
-import net.prostars.message_system.handler.MessageHandler;
+import net.prostars.messagesystem.handler.MessageHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;

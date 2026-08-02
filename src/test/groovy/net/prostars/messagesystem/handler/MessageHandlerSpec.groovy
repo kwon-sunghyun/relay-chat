@@ -1,8 +1,8 @@
-package net.prostars.message_system.handler
+package net.prostars.messagesystem.handler
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import net.prostars.message_system.MessageSystemApplication
-import net.prostars.message_system.dto.Message
+import net.prostars.messagesystem.MessageSystemApplication
+import net.prostars.messagesystem.dto.Message
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.web.socket.TextMessage

@@ -1,4 +1,4 @@
-package net.prostars.message_system.dto;
+package net.prostars.messagesystem.dto;
 
 /**
  * WebSocket을 통해 송수신되는 메시지 DTO.

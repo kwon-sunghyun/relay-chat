@@ -1,8 +1,8 @@
-package net.prostars.message_system.handler;
+package net.prostars.messagesystem.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.prostars.message_system.dto.Message;
-import net.prostars.message_system.session.WebSocketSessionManager;
+import net.prostars.messagesystem.dto.Message;
+import net.prostars.messagesystem.session.WebSocketSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;

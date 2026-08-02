@@ -1,4 +1,4 @@
-package net.prostars.message_system;
+package net.prostars.messagesystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
