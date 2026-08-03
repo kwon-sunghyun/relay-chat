@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: group-chat-using-db
+
+  # MySQL 연결 및 HikariCP Connection Pool 설정
+  datasource:
+    hikari:
+      jdbc-url: jdbc:mysql://localhost:13306/messagesystem
+      username: dev_user
+      password: dev_password
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      pool-name: ConnectionPool
+      minimum-idle: 10
+      maximum-pool-size: 20
+      idle-timeout: 60000
+      connection-timeout: 30000
+
+  jpa:
+    # Hibernate가 실행한 SQL을 로그에 출력한다.
+    show-sql: true
+
+    # 요청 처리 이후 영속성 컨텍스트를 유지하지 않는다.
+    open-in-view: false
+
+    hibernate:
+      # Entity와 실제 테이블 구조가 일치하는지만 검증한다.
+      ddl-auto: validate
+
+    properties:
+      hibernate:
+        # SQL 로그를 읽기 쉽게 정렬한다.
+        format_sql: true
+
+  sql:
+    init:
+      # 애플리케이션 실행 시 schema.sql을 항상 실행한다.
+      mode: always

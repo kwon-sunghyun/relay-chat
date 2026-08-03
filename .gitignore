@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Docker Database Data ###
+docker/data/mysql/
+docker/.env
