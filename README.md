@@ -45,12 +45,13 @@ RelayChat은 단순히 채팅 기능을 구현하는 프로젝트가 아니고 �
 
 ## 🛠 Tech Stack
 
-| 구분 | 기술 스택 (Tech Stack) |
+| Category | Tech Stack |
 | :--- | :--- |
 | **Backend** | `Java`, `Spring Boot`, `WebSocket` |
 | **Database** | `MySQL` |
-| **Infra** | `Docker Compose`, `Nginx` |
 | **Message Broker** | `Redis`, `Kafka` |
+| **Infra** | `Docker Compose`, `Nginx` |
+| **Testing** | `Groovy`, `Spock`, `JUnit 5` |
 | **Monitoring** | `Micrometer`, `Prometheus`, `Grafana` |
 
 ---
