@@ -27,8 +27,8 @@ public class MessageEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "create_at", nullable = false)
-    private LocalDateTime createAt;
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
@@ -54,8 +54,8 @@ public class MessageEntity {
         return content;
     }
 
-    public LocalDateTime getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public LocalDateTime getUpdatedAt() {
@@ -67,8 +67,8 @@ public class MessageEntity {
      */
     @PrePersist
     public void prePersist() {
-        this.createAt = LocalDateTime.now();
-        this.updatedAt = this.createAt;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
     }
 
     /**
@@ -96,7 +96,7 @@ public class MessageEntity {
 
     @Override
     public String toString() {
-        return "MessageEntity{messageSequence=%d, username='%s', content='%s', createAt=%s, updatedAt=%s}"
-                .formatted(messageSequence, username, content, createAt, updatedAt);
+        return "MessageEntity{messageSequence=%d, username='%s', content='%s', createdAt=%s, updatedAt=%s}"
+                .formatted(messageSequence, username, content, createdAt, updatedAt);
     }
 }
