@@ -2,23 +2,22 @@ package net.prostars.messagesystem.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 
 /**
  * message 테이블과 매핑되는 채팅 메시지 Entity.
- *
+ * <p>
  * 사용자가 전송한 이름과 메시지 내용,
  * 생성·수정 시간을 데이터베이스에 저장한다.
  */
 @Entity
 @Table(name = "message")
-public class MessageEntity {
+public class MessageEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_sequence", nullable = false)
+    @Column(name = "message_sequence")
     private Long messageSequence;
 
     @Column(name = "user_name", nullable = false)
@@ -26,12 +25,6 @@ public class MessageEntity {
 
     @Column(name = "content", nullable = false)
     private String content;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
 
     public MessageEntity() {
 
@@ -54,30 +47,6 @@ public class MessageEntity {
         return content;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    /**
-     * Entity가 처음 저장되기 전에 생성·수정 시간을 설정한다.
-     */
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = this.createdAt;
-    }
-
-    /**
-     * Entity가 수정되기 전에 수정 시간을 갱신한다.
-     */
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 
     /**
      * DB 식별자인 messageSequence를 기준으로 Entity를 비교한다.
@@ -97,6 +66,6 @@ public class MessageEntity {
     @Override
     public String toString() {
         return "MessageEntity{messageSequence=%d, username='%s', content='%s', createdAt=%s, updatedAt=%s}"
-                .formatted(messageSequence, username, content, createdAt, updatedAt);
+                .formatted(messageSequence, username, content, getCreatedAt(), getUpdatedAt());
     }
 }

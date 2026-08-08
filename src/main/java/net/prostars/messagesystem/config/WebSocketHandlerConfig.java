@@ -1,5 +1,6 @@
 package net.prostars.messagesystem.config;
 
+import net.prostars.messagesystem.auth.WebSocketHttpSessionHandshakeInterceptor;
 import net.prostars.messagesystem.handler.MessageHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -24,9 +25,12 @@ public class WebSocketHandlerConfig implements WebSocketConfigurer {
      * WebSocket 메시지를 처리하는 Handler.
      */
     private final MessageHandler messageHandler;
+    private final WebSocketHttpSessionHandshakeInterceptor webSocketHttpSessionHandshakeInterceptor;
 
-    public WebSocketHandlerConfig(MessageHandler messageHandler) {
+    public WebSocketHandlerConfig(MessageHandler messageHandler,
+                                  WebSocketHttpSessionHandshakeInterceptor webSocketHttpSessionHandshakeInterceptor) {
         this.messageHandler = messageHandler;
+        this.webSocketHttpSessionHandshakeInterceptor = webSocketHttpSessionHandshakeInterceptor;
     }
 
     /**
@@ -39,6 +43,6 @@ public class WebSocketHandlerConfig implements WebSocketConfigurer {
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(messageHandler, "/ws/v1/message");
+        registry.addHandler(messageHandler, "/ws/v1/message").addInterceptors(webSocketHttpSessionHandshakeInterceptor);
     }
 }

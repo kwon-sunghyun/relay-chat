@@ -1,9 +1,14 @@
 package net.prostars.messagesystem.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.prostars.messagesystem.dto.Message;
+import net.prostars.messagesystem.contants.Constants;
+import net.prostars.messagesystem.dto.domain.Message;
+import net.prostars.messagesystem.dto.websocket.inbound.BaseRequest;
+import net.prostars.messagesystem.dto.websocket.inbound.KeepAliveRequest;
+import net.prostars.messagesystem.dto.websocket.inbound.MessageRequest;
 import net.prostars.messagesystem.entity.MessageEntity;
 import net.prostars.messagesystem.repository.MessageRepository;
+import net.prostars.messagesystem.service.SessionService;
 import net.prostars.messagesystem.session.WebSocketSessionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,20 +43,23 @@ public class MessageHandler extends TextWebSocketHandler {
      */
     private final MessageRepository messageRepository;
 
+    private final SessionService sessionService;
+
     /**
      * WebSocket 메시지 처리에 필요한 의존성을 주입한다.
      *
      * @param webSocketSessionManager 연결된 WebSocket Session 관리 객체
      * @param messageRepository       채팅 메시지 저장 Repository
      */
-    public MessageHandler(WebSocketSessionManager webSocketSessionManager, MessageRepository messageRepository) {
+    public MessageHandler(SessionService sessionService ,WebSocketSessionManager webSocketSessionManager, MessageRepository messageRepository) {
+        this.sessionService = sessionService;
         this.webSocketSessionManager = webSocketSessionManager;
         this.messageRepository = messageRepository;
     }
 
     /**
      * WebSocket 연결이 성공하면 호출된다.
-     *
+     * <p>
      * 연결된 Session을 ConcurrentWebSocketSessionDecorator로 감싼 뒤
      * SessionManager에 등록한다.
      */
@@ -69,7 +77,7 @@ public class MessageHandler extends TextWebSocketHandler {
 
     /**
      * WebSocket 통신 중 전송 오류가 발생하면 호출된다.
-     *
+     * <p>
      * 오류가 발생한 Session을 제거하고 연결을 종료한다.
      */
     @Override
@@ -82,7 +90,7 @@ public class MessageHandler extends TextWebSocketHandler {
 
     /**
      * WebSocket 연결이 정상적으로 종료되면 호출된다.
-     *
+     * <p>
      * 종료된 Session을 SessionManager에서 제거하고
      * 해당 WebSocket 연결을 정리한다.
      *
@@ -98,26 +106,34 @@ public class MessageHandler extends TextWebSocketHandler {
 
     /**
      * 클라이언트가 TextMessage를 전송하면 호출된다.
-     *
+     * <p>
      * 처리 순서:
      * JSON 역직렬화 → 메시지 DB 저장 → 다른 참여자에게 전달
      */
     @Override
     protected void handleTextMessage(WebSocketSession senderSession, @NonNull TextMessage message) throws Exception {
-        log.info("Received TextMessage: [{}] from {}", message, senderSession.getId());
         String payload = message.getPayload();
+        log.info("Received TextMessage: [{}] from {}", payload, senderSession.getId());
         try {
             // 클라이언트의 JSON을 채팅 Message 객체로 변환한다.
-            Message receivedMessage = objectMapper.readValue(payload, Message.class);
-            // 수신한 메시지를 Entity로 변환하여 DB에 저장한다.
-            messageRepository.save(new MessageEntity(receivedMessage.username(), receivedMessage.content()));
+            BaseRequest baseRequest = objectMapper.readValue(payload, BaseRequest.class);
 
-            // 발신자를 제외한 모든 참여자에게 메시지 전달
-            webSocketSessionManager.getSeesions().forEach(participantSession -> {
-                if (!senderSession.getId().equals(participantSession.getId())) {
-                    sendMessage(participantSession, receivedMessage);
-                }
-            });
+            if (baseRequest instanceof MessageRequest messageRequest) {
+                Message receivedMessage = new Message(messageRequest.getUsername(), messageRequest.getContent());
+
+                // 수신한 메시지를 Entity로 변환하여 DB에 저장한다.
+                messageRepository.save(new MessageEntity(receivedMessage.username(), receivedMessage.content()));
+
+                // 발신자를 제외한 모든 참여자에게 메시지 전달
+                webSocketSessionManager.getSeesions().forEach(participantSession -> {
+                    if (!senderSession.getId().equals(participantSession.getId())) {
+                        sendMessage(participantSession, receivedMessage);
+                    }
+                });
+            } else if (baseRequest instanceof KeepAliveRequest) {
+                sessionService.refreshTTL(
+                        (String) senderSession.getAttributes().get(Constants.HTTP_SESSION_ID.getValue()));
+            }
 
         } catch (Exception ex) {
             String errorMessage = "유효한 프로토콜이 아닙니다.";
@@ -129,7 +145,7 @@ public class MessageHandler extends TextWebSocketHandler {
 
     /**
      * 지정한 WebSocket Session으로 메시지를 전송한다.
-     *
+     * <p>
      * Message 객체를 JSON으로 직렬화한 뒤 TextMessage로 전달한다.
      *
      * @param session 메시지를 받을 WebSocket Session

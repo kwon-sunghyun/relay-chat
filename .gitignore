@@ -39,3 +39,5 @@ out/
 ### Docker Database Data ###
 docker/data/mysql/
 docker/.env
+docker/data/redis-insight/
+docker/data/redis/
