@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import net.prostars.messagesystem.contants.MessageType;
 
+/**
+ * 클라이언트가 전송한 채팅 메시지를 표현하는 WebSocket 요청 DTO.
+ */
 public class MessageRequest extends BaseRequest{
 
     private final String username;

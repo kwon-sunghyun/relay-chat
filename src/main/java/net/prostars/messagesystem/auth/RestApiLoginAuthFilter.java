@@ -23,24 +23,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 /**
- * JSON 기반 로그인 요청을 처리하는 Spring Security 인증 필터.
- * <p>
- * 기본 UsernamePasswordAuthenticationFilter는
- * application/x-www-form-urlencoded 형식의 username, password를 처리한다.
- * <p>
- * 이 클래스는 REST API 환경에서 전달되는 JSON 요청을 읽어
- * Spring Security 인증 절차를 수행하기 위해 직접 구현한 필터다.
- * <p>
- * 로그인 처리 흐름:
- * <p>
- * Client
- * → POST /api/v1/auth/login
- * → RestApiLoginAuthFilter
- * → AuthenticationManager
- * → DaoAuthenticationProvider
- * → UserDetailsService
- * → PasswordEncoder
- * → 인증 성공 또는 실패
+ * JSON 형식의 로그인 요청을 처리하는 인증 Filter.
+ *
+ * username/password를 읽어
+ * Spring Security의 AuthenticationManager에 인증을 요청한다.
  */
 public class RestApiLoginAuthFilter extends AbstractAuthenticationProcessingFilter {
 

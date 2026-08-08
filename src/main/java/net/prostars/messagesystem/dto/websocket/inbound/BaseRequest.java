@@ -2,8 +2,13 @@ package net.prostars.messagesystem.dto.websocket.inbound;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import net.prostars.messagesystem.contants.MessageType;
 
+/**
+ * WebSocket 요청 메시지의 공통 부모 클래스.
+ *
+ * JSON의 type 값을 기준으로
+ * MessageRequest 또는 KeepAliveRequest로 변환된다.
+ */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,

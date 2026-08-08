@@ -9,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * 사용자 회원가입과 회원탈퇴 비즈니스 로직을 처리하는 서비스.
+ *
+ * 비밀번호 암호화, 사용자 저장/삭제,
+ * 현재 로그인 사용자 조회를 담당한다.
+ */
 @Service
 public class MessageUserService {
 

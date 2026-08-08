@@ -15,6 +15,12 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 
 import java.util.Map;
 
+/**
+ * WebSocket 연결 전에 HttpSession을 확인한다.
+ *
+ * 세션이 있으면 Handshake를 허용하고,
+ * 없으면 401 응답으로 연결을 거부한다.
+ */
 @Component
 public class WebSocketHttpSessionHandshakeInterceptor extends HttpSessionHandshakeInterceptor {
 

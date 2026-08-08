@@ -8,6 +8,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Spring Security에서 사용할 사용자 인증 정보 객체.
+ * DB의 사용자 정보를 Security가 이해할 수 있는 형태로 전달한다.
+ */
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MessageUserUserDetails implements UserDetails {

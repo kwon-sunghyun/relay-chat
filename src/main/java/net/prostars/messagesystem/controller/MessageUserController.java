@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * 회원가입과 회원탈퇴 요청을 처리하는 REST Controller.
+ */
 @RestController
 @RequestMapping("/api/v1/auth")
 public class MessageUserController {

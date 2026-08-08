@@ -9,6 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * username으로 DB에서 사용자를 조회하여
+ * Spring Security의 UserDetails로 변환하는 서비스.
+ */
 @Service
 public class MessageUserUserDetailsService implements UserDetailsService {
 
